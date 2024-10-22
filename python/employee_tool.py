@@ -31,7 +31,7 @@ def save_to_csv(data, filename="employees.csv"):
     file_exist = os.path.exists(filename)
 
     with open(filename, "a", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=data.keys())
+        writer = csv.DictReader(file, fieldnames=data.keys())
         if not file_exist:
             writer.writeheader()
         writer.writerow(data)

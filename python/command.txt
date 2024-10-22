@@ -1,0 +1,11 @@
+read data from file
+python3 employee_tool_v2.py read --filetype csv
+
+save new employee
+python3 employee_tool_v2.py save --filetype json --name "Nguyen Van A" --age 30
+
+search employee by name
+python3 employee_tool_v2.py search --filetype csv --search_name abc
+
+delete file
+python3 employee_tool_v2.py delete --filetype json

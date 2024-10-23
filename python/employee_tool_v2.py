@@ -60,12 +60,14 @@ class EmployeeManager:
             if os.path.exists(filename):
                 with open(filename, "r") as file:
                     existing_data = json.load(file)
+
                 existing_data.append(employee)
+
                 with open(filename, "w") as file:
                     json.dump(existing_data, file, indent=4)
             else:
                 with open(filename, "w") as file:
-                    json.dump(employee, file, indent=4)
+                    json.dump([employee], file, indent=4)
             print("Data save to json file")
         elif self.filetype == "csv":
             file_exists = os.path.exists(filename)
@@ -127,35 +129,51 @@ class EmployeeManager:
             print("File not found")
 
 
-parser = argparse.ArgumentParser(description="employee input tool")
+def main():
+    parser = argparse.ArgumentParser(description="employee input tool")
 
-parser.add_argument(
-    "command",
-    choices=["read", "save", "delete", "search"],
-    help="Command for read, save, delete, search option",
-)
+    parser.add_argument(
+        "command",
+        choices=["read", "save", "delete", "search"],
+        help="Command for read, save, delete, search option",
+    )
 
-parser.add_argument("--name", type=str, help="Name of employee")
-parser.add_argument("--age", type=int, help="Age of employee")
+    parser.add_argument("--name", type=str, help="Name of employee")
+    parser.add_argument("--age", type=int, help="Age of employee")
 
-parser.add_argument(
-    "--filetype", type=str, choices=["json", "csv"], default="json", help="Type of file"
-)
+    parser.add_argument(
+        "--filetype",
+        type=str,
+        choices=["json", "csv"],
+        default="json",
+        help="Type of file",
+    )
 
-parser.add_argument("--search_name", type=str, help="Name of employee for search")
+    parser.add_argument("--search_name", type=str, help="Name of employee for search")
 
-args = parser.parse_args()
+    args = parser.parse_args()
 
-manager = EmployeeManager(filetype=args.filetype)
+    manager = EmployeeManager(filetype=args.filetype)
 
-match args.command:
-    case "read":
-        manager.read_employees()
-    case "save":
-        employee_data = {"name": args.name, "age": args.age}
+    match args.command:
+        case "read":
+            manager.read_employees()
+        case "save":
+            if args.name is not None and args.age is not None:
+                try:
+                    employee_data = {"name": args.name, "age": args.age}
 
-        manager.save_employee(employee_data)
-    case "search":
-        manager.search_employees(args.search_name)
-    case "delete":
-        manager.delete_file()
+                    manager.save_employee(employee_data)
+                except TypeError:
+                    print("Invalid argument.")
+            else:
+                print("Employee's name or age is missing.")
+
+        case "search":
+            manager.search_employees(args.search_name)
+        case "delete":
+            manager.delete_file()
+
+
+if __name__ == "__main__":
+    main()

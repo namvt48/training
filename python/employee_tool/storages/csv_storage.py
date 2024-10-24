@@ -1,12 +1,15 @@
 import csv
 import os
+from typing import Any
+
+from storages.storage_interface import StorageInterface
 
 
-class CSVEmployeeStorage:
-    def __init__(self, filename="employees.csv"):
+class CSVEmployeeStorage(StorageInterface):
+    def __init__(self, filename: str = "employees.csv") -> None:
         self.filename = filename
 
-    def read(self):
+    def read(self) -> None:
         if os.path.exists(self.filename):
             with open(self.filename, "r", newline="") as file:
                 reader = csv.DictReader(file)
@@ -16,7 +19,7 @@ class CSVEmployeeStorage:
         else:
             print("File csv not exist")
 
-    def save(self, employee):
+    def save(self, employee: dict[str, Any]) -> None:
         fieldnames = ["name", "age"]
         file_exists = os.path.exists(self.filename)
         with open(self.filename, "a", newline="") as file:
@@ -27,14 +30,14 @@ class CSVEmployeeStorage:
             writer.writerow(employee)
         print("Data save to csv file")
 
-    def delete(self):
+    def delete(self) -> None:
         if os.path.exists(self.filename):
             os.remove(self.filename)
             print(f"Deleted file {self.filename}")
         else:
             print("File not found")
 
-    def search(self, search_term):
+    def search(self, search_term: str) -> None:
         if os.path.exists(self.filename):
             with open(self.filename, "r") as file:
                 reader = csv.DictReader(file)

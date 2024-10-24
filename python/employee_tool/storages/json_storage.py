@@ -1,12 +1,15 @@
 import json
 import os
+from typing import Any
+
+from storages.storage_interface import StorageInterface
 
 
-class JSONEmployeeStorage:
-    def __init__(self, filename="employees.json"):
+class JSONEmployeeStorage(StorageInterface):
+    def __init__(self, filename: str = "employees.json") -> None:
         self.filename = filename
 
-    def read(self):
+    def read(self) -> None:
         if os.path.exists(self.filename):
             with open(self.filename, "r") as file:
                 data = json.load(file)
@@ -16,7 +19,7 @@ class JSONEmployeeStorage:
         else:
             print("File json not exist")
 
-    def save(self, employee):
+    def save(self, employee: dict[str, Any]) -> None:
         if os.path.exists(self.filename):
             with open(self.filename, "r") as file:
                 existing_data = json.load(file)
@@ -30,14 +33,14 @@ class JSONEmployeeStorage:
                 json.dump([employee], file, indent=4)
         print("Data save to json file")
 
-    def delete(self):
+    def delete(self) -> None:
         if os.path.exists(self.filename):
             os.remove(self.filename)
             print(f"Deleted file {self.filename}")
         else:
             print("File not found")
 
-    def search(self, search_term):
+    def search(self, search_term: str) -> None:
         if os.path.exists(self.filename):
             with open(self.filename, "r") as file:
                 data = json.load(file)

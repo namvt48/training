@@ -1,10 +1,11 @@
 import argparse
+from typing import Optional, Any
 
 from employee_manager import EmployeeManager
-from storages import CSVEmployeeStorage, JSONEmployeeStorage
+from storages import CSVEmployeeStorage, JSONEmployeeStorage, MongoEmployeeStorage
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="employee input tool")
 
     parser.add_argument(
@@ -19,19 +20,21 @@ def main():
     parser.add_argument(
         "--filetype",
         type=str,
-        choices=["json", "csv"],
+        choices=["json", "csv", "mongo"],
         default="json",
         help="Type of file",
     )
 
     parser.add_argument("--search_name", type=str, help="Name of employee for search")
 
-    args = parser.parse_args()
+    args: Any = parser.parse_args()
 
     if args.filetype == "json":
         storage = JSONEmployeeStorage()
     elif args.filetype == "csv":
         storage = CSVEmployeeStorage()
+    elif args.filetype == "mongo":
+        storage = MongoEmployeeStorage()
     else:
         raise ValueError("Unsupported filetype")
 

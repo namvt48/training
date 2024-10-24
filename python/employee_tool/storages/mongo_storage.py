@@ -47,3 +47,7 @@ class MongoEmployeeStorage(StorageInterface):
         except Exception as e:
             print(f"Error occur: {e}")
             return []
+
+    #close mongo connection
+    def close(self) -> None:
+        self.client.close()

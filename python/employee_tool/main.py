@@ -44,6 +44,7 @@ def main() -> None:
 
     #Search parse
     search_parser = subparsers.add_parser("search", help="Search employee")
+    search_parser.add_argument("--search_name", type=str, help="Name of employee")
     search_parser.add_argument(
         "--filetype",
         type=str,
@@ -67,22 +68,45 @@ def main() -> None:
 
     match args.command:
         case "read":
-            manager.read_employees()
+            employees = manager.read_employees()
+
+            if not employees:
+                print("No employees found")
+            else:
+                print("List of employees:")
+                for employee in employees:
+                    print(employee)
         case "save":
             if args.name is not None and args.age is not None:
                 try:
                     employee_data = {"name": args.name, "age": args.age}
+                    is_success = manager.save_employee(employee_data)
 
-                    manager.save_employee(employee_data)
+                    if is_success:
+                        print("Employee saved")
+                    else:
+                        print("Failed to save employee")
                 except TypeError:
                     print("Invalid argument.")
             else:
                 print("Employee's name or age is missing.")
 
         case "search":
-            manager.search_employee(args.search_name)
+            employees = manager.search_employee(args.search_name)
+
+            if not employees:
+                print("No employees found")
+            else:
+                print("List of employees:")
+                for employee in employees:
+                    print(employee)
         case "delete":
-            manager.delete_file()
+            is_success = manager.delete_file()
+
+            if is_success:
+                print("Employee deleted")
+            else:
+                print("Failed to delete employee")
 
 
 if __name__ == "__main__":

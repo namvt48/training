@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from typing import Any
+from typing import Any, List
 from storages.storage_interface import StorageInterface
 
 
@@ -13,33 +13,37 @@ class MongoEmployeeStorage(StorageInterface):
         self.db = self.client[db_name]
         self.collection = self.db[collection_name]
 
-        # print(self.client.server_info())
+    def read(self) -> List[dict[str, Any]]:
+        try:
+            employees = list(self.collection.find())
+            return employees
+        except Exception as e:
+            print(f"Error occur: {e}")
+            return []
 
-    def read(self) -> None:
-        employees = list(
-            self.collection.find()
-        )
-        if not employees:
-            print("Employees not found")
-        else:
-            for employee in employees:
-                print(employee)
+    def save(self, employee: dict[str, Any]) -> bool:
+        try:
+            self.collection.insert_one(employee)
+            print(f"Store {employee} to MongoDB.")
+            return True
+        except Exception as e:
+            print(f"Error occur: {e}")
+            return False
 
-    def save(self, employee: dict[str, Any]) -> None:
-        self.collection.insert_one(employee)
-        print(f"Store {employee} to MongoDB.")
+    def delete(self) -> bool:
+        try:
+            self.collection.delete_many({})
+            print("Delete data in MongoDB.")
+            return True
+        except Exception as e:
+            print(f"Error occur: {e}")
+            return False
 
-    def delete(self) -> None:
-        self.collection.delete_many({})
-        print("Delete data in MongoDB.")
-
-    def search(self, search_term: str) -> None:
-        query = {
-            'name': {'$regex': search_term, '$options': 'i'}
-        }
-        results = list(
-            self.collection.find(query)
-        )
-
-        for employee in results:
-            print(employee)
+    def search(self, search_term: str) -> List[dict[str, Any]]:
+        try:
+            query = {'name': {'$regex': search_term, '$options': 'i'}}
+            results = list(self.collection.find(query))
+            return results
+        except Exception as e:
+            print(f"Error occur: {e}")
+            return []

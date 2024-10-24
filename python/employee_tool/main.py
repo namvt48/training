@@ -6,26 +6,51 @@ from storages import CSVEmployeeStorage, JSONEmployeeStorage, MongoEmployeeStora
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="employee input tool")
+    parser = argparse.ArgumentParser(description="Employee input tool")
 
-    parser.add_argument(
-        "command",
-        choices=["read", "save", "delete", "search"],
-        help="Command for read, save, delete, search option",
-    )
+    subparsers = parser.add_subparsers(dest="command", help="Commands")
 
-    parser.add_argument("--name", type=str, help="Name of employee")
-    parser.add_argument("--age", type=int, help="Age of employee")
-
-    parser.add_argument(
+    #Save parse
+    save_parser = subparsers.add_parser("save", help="Save employee")
+    save_parser.add_argument("--name", type=str, help="Name of employee")
+    save_parser.add_argument("--age", type=int, help="Age of employee")
+    save_parser.add_argument(
         "--filetype",
         type=str,
         choices=["json", "csv", "mongo"],
         default="json",
-        help="Type of file",
+        help="Type of file to save",
     )
 
-    parser.add_argument("--search_name", type=str, help="Name of employee for search")
+    #Read parse
+    read_parser = subparsers.add_parser("read", help="Read employee")
+    read_parser.add_argument(
+        "--filetype",
+        type=str,
+        choices=["json", "csv", "mongo"],
+        default="json",
+        help="Type of file to read",
+    )
+
+    #Delete parse
+    delete_parser = subparsers.add_parser("delete", help="Delete employee")
+    delete_parser.add_argument(
+        "--filetype",
+        type=str,
+        choices=["json", "csv", "mongo"],
+        default="json",
+        help="Type of file to delete",
+    )
+
+    #Search parse
+    search_parser = subparsers.add_parser("search", help="Search employee")
+    search_parser.add_argument(
+        "--filetype",
+        type=str,
+        choices=["json", "csv", "mongo"],
+        default="json",
+        help="Type of file to search",
+    )
 
     args: Any = parser.parse_args()
 

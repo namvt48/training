@@ -1,5 +1,6 @@
 import csv
 import os
+import logging
 from typing import Any, List
 
 from storages.storage_interface import StorageInterface
@@ -15,7 +16,7 @@ class CSVEmployeeStorage(StorageInterface):
                 reader = csv.DictReader(file)
                 return list(reader)
         else:
-            print("File csv not exist")
+            logging.error("File does not exist")
             return []
 
     def save(self, employee: dict[str, Any]) -> bool:
@@ -30,7 +31,7 @@ class CSVEmployeeStorage(StorageInterface):
 
             return True
         except Exception as e:
-            print(f"Error occur: {e}")
+            logging.error(e)
             return False
 
     def delete(self) -> bool:
@@ -41,7 +42,7 @@ class CSVEmployeeStorage(StorageInterface):
             else:
                 return False
         except Exception as e:
-            print(f"Error occur: {e}")
+            logging.error(e)
             return False
 
     def search(self, search_term: str) -> List[dict[str, Any]]:
@@ -55,5 +56,5 @@ class CSVEmployeeStorage(StorageInterface):
 
                 return results
         else:
-            print("Not found csv file")
+            logging.error("File does not exist")
             return []

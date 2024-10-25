@@ -1,4 +1,5 @@
 import argparse
+import logging
 from typing import Optional, Any
 
 from employee_manager import EmployeeManager
@@ -71,7 +72,7 @@ def main() -> None:
             employees = manager.read_employees()
 
             if not employees:
-                print("No employees found")
+                logging.error("No employees found")
             else:
                 print("List of employees:")
                 for employee in employees:
@@ -85,17 +86,17 @@ def main() -> None:
                     if is_success:
                         print("Employee saved")
                     else:
-                        print("Failed to save employee")
+                        logging.error("Employee not saved")
                 except TypeError:
-                    print("Invalid argument.")
+                    logging.error("Invalid arguments")
             else:
-                print("Employee's name or age is missing.")
+                logging.error("Missing arguments")
 
         case "search":
             employees = manager.search_employee(args.search_name)
 
             if not employees:
-                print("No employees found")
+                logging.error("No employees found")
             else:
                 print("List of employees:")
                 for employee in employees:
@@ -106,8 +107,7 @@ def main() -> None:
             if is_success:
                 print("Employee deleted")
             else:
-                print("Failed to delete employee")
-
+                logging.error("Employee not deleted")
 
 if __name__ == "__main__":
     main()

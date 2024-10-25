@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 from typing import Any, List
 
 from storages.storage_interface import StorageInterface
@@ -15,7 +16,7 @@ class JSONEmployeeStorage(StorageInterface):
                 data = json.load(file)
                 return data
         else:
-            print("File json not exist")
+            logging.error("File json not exist")
             return []
 
     def save(self, employee: dict[str, Any]) -> bool:
@@ -34,7 +35,7 @@ class JSONEmployeeStorage(StorageInterface):
 
             return True
         except Exception as e:
-            print(f"Error occur: {e}")
+            logging.error(e)
             return False
 
     def delete(self) -> bool:
@@ -45,7 +46,7 @@ class JSONEmployeeStorage(StorageInterface):
             else:
                 return False
         except Exception as e:
-            print(f"Error occur: {e}")
+            logging.error(e)
             return False
 
     def search(self, search_term: str) -> List[dict[str, Any]]:
@@ -59,5 +60,5 @@ class JSONEmployeeStorage(StorageInterface):
 
                 return results
         else:
-            print("Not found json file")
+            logging.error("Not found json file")
             return []

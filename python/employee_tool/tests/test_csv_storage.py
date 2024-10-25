@@ -1,6 +1,6 @@
 import unittest
 import os
-from storages.csv_storage import CSVEmployeeStorage
+from employee_tool.storages.csv_storage import CSVEmployeeStorage
 
 
 class TestCsvEmployeeStorage(unittest.TestCase):

@@ -1,9 +1,9 @@
 import argparse
 import logging
-from typing import Optional, Any
+from typing import Any
 
-from employee_manager import EmployeeManager
-from storages import CSVEmployeeStorage, JSONEmployeeStorage, MongoEmployeeStorage
+from employee_tool.manager.employee_manager import EmployeeManager
+from employee_tool.storages import CSVEmployeeStorage, JSONEmployeeStorage, MongoEmployeeStorage
 
 
 def main() -> None:

@@ -1,5 +1,5 @@
 import unittest
-from storages.mongo_storage import MongoEmployeeStorage
+from employee_tool.storages import MongoEmployeeStorage
 
 
 class TestMongoEmployeeStorage(unittest.TestCase):

@@ -1,6 +1,6 @@
 import unittest
 import os
-from storages.json_storage import JSONEmployeeStorage
+from employee_tool.storages.json_storage import JSONEmployeeStorage
 
 
 class TestJSONEmployeeStorage(unittest.TestCase):

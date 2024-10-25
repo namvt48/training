@@ -1,6 +1,6 @@
 from typing import Any, List
 
-from storages.storage_interface import StorageInterface
+from employee_tool.storages.storage_interface import StorageInterface
 
 
 class EmployeeManager:

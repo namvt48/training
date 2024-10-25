@@ -2,7 +2,7 @@ import os
 import logging
 from pymongo import MongoClient
 from typing import Any, List
-from storages.storage_interface import StorageInterface
+from employee_tool.storages.storage_interface import StorageInterface
 from dotenv import load_dotenv
 
 

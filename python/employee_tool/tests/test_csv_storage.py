@@ -2,6 +2,7 @@ import unittest
 import os
 from storages.csv_storage import CSVEmployeeStorage
 
+
 class TestCsvEmployeeStorage(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -29,6 +30,27 @@ class TestCsvEmployeeStorage(unittest.TestCase):
         results = self.storage.search("Nguyen")
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0]['name'], "Nguyen Van A")
+
+    def test_read_non_existing_file(self) -> None:
+        storage = CSVEmployeeStorage('non_existing.csv')
+        result = storage.read()
+        self.assertEqual([],result)
+
+    def test_delete_non_existing_file(self) -> None:
+        storage = CSVEmployeeStorage('non_existing.csv')
+        success = storage.delete()
+        self.assertFalse(success)
+
+    def test_search_non_existing_file(self) -> None:
+        storage = CSVEmployeeStorage('non_existing.csv')
+        results = storage.search("Nguyen")
+        self.assertEqual([],results)
+
+    def test_read_corrupted_csv(self) -> None:
+        with open('test_employees.csv', 'w') as file:
+            file.write('corrupted data')
+        result = self.storage.read()
+        self.assertEqual([],result)
 
 
 if __name__ == '__main__':

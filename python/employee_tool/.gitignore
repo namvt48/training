@@ -1,3 +1,6 @@
 __pycache__
 employees.json
 employees.csv
+.venv
+.idea
+.env

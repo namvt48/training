@@ -1,6 +1,8 @@
 from pymongo import MongoClient
 from typing import Any, List
 from storages.storage_interface import StorageInterface
+import os
+from dotenv import load_dotenv
 
 
 class MongoEmployeeStorage(StorageInterface):
@@ -8,8 +10,9 @@ class MongoEmployeeStorage(StorageInterface):
             self,
             db_name: str = 'employee_db',
             collection_name: str = 'employees',
-            url: str = "mongodb+srv://namvt123:namvt123@cluster0.5sxuq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0") -> None:
-        self.client: MongoClient = MongoClient(url)
+    ) -> None:
+        load_dotenv()
+        self.client: MongoClient = MongoClient(os.getenv('MONGO_URI'))
         self.db = self.client[db_name]
         self.collection = self.db[collection_name]
 
@@ -48,6 +51,6 @@ class MongoEmployeeStorage(StorageInterface):
             print(f"Error occur: {e}")
             return []
 
-    #close mongo connection
+    # close mongo connection
     def close(self) -> None:
         self.client.close()

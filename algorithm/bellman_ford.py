@@ -47,7 +47,6 @@ def bellman_ford(graph: List[Tuple[str, str, float]], source: str) -> Tuple[dict
     return distances, None
 
 
-# Ví dụ sử dụng
 if __name__ == "__main__":
     graph = [
         ('A', 'B', 1),

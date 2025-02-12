@@ -1,0 +1,26 @@
+    # Create a graph instance
+    g = Graph(4)
+    # Add edges (u, v, w)
+    g.add_edge(0, 1, -3)
+    g.add_edge(1, 2, -4)
+    g.add_edge(2, 0, 1)
+    g.add_edge(0, 3, -1)
+    g.add_edge(3, 2, -2)
+
+
+    g = Graph(6)
+
+    # Add edges (u, v, w)
+    # First negative cycle: 0 -> 1 -> 2 -> 0
+    g.add_edge(0, 1, 1)
+    g.add_edge(1, 2, -3)
+    g.add_edge(2, 0, 1)
+
+    # Second negative cycle: 3 -> 4 -> 5 -> 3
+    g.add_edge(3, 4, 2)
+    g.add_edge(4, 5, -4)
+    g.add_edge(5, 3, 1)
+
+    # Some additional edges connecting the cycles
+    g.add_edge(2, 3, 2)
+    g.add_edge(5, 0, -1)

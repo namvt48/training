@@ -1,17 +1,17 @@
 from web3 import Web3
 
 # Thay bằng URL của node bạn (Infura, Alchemy, hay node local)
-provider_url = "https://mainnet.infura.io/v3/<YOUR_INFURA_KEY>"
+provider_url = "http://192.168.1.58:8545"
 w3 = Web3(Web3.HTTPProvider(provider_url))
 
 # Địa chỉ contract (đã triển khai trên blockchain)
-contract_address = "0x1234567890ABCDEF1234567890aBcDeF12345678"
-contract_address = w3.toChecksumAddress(contract_address)
+contract_address = "0x576e2bed8f7b46d34016198911cdf9886f78bea7"
+contract_address = w3.to_checksum_address(contract_address)
 
 
 def read_storage_slot(addr, slot_index):
     # getStorageAt trả về dữ liệu bytes (hex)
-    data_bytes = w3.eth.getStorageAt(addr, slot_index)
+    data_bytes = w3.eth.get_storage_at(addr, slot_index)
     return data_bytes
 
 
@@ -24,7 +24,7 @@ def bytes_to_address(data_bytes):
     # Address là 20 bytes cuối, parse từ 32 bytes
     # Thường ta lấy 12 byte đầu bỏ đi, 20 byte còn lại là address
     addr_int = int.from_bytes(data_bytes[12:], byteorder='big')
-    return Web3.toChecksumAddress(addr_int.to_bytes(20, 'big'))
+    return Web3.to_checksum_address(addr_int.to_bytes(20, 'big'))
 
 
 def decode_bool_slot22(slot_bytes):
